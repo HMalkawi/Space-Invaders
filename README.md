@@ -9,16 +9,16 @@ This game is based upon a pygame tutorial found in a book called "Python crash c
 
 TO DO list:
 
-  1. ~~Add a scoring system.~~
+  1. ~~Add a scoring system.
 
-  2. ~~Add a "play again" button.~~
+  2. ~~Add a "play again" button.
 
-  3. ~~Add some sort of health/lives indicator.~~
+  3. ~~Add some sort of health/lives indicator.
 
-  4. Add a starting screen(some sort of intro and a splash screen). **A play button has been added, splash screen will soon follow.**
+  4. ~~Add a starting screen. **A play button has been added
 
-  5. Allow the aliens to shoot.
+  5. ~~Allow the aliens to shoot.
 
   6. Add shelters for the ship.
 
-  7. Add a better texture for the ship and improve the game's colors.
+  7. Improve tha game's looks and improve the overall gameplaty experience.
