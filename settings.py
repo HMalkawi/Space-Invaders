@@ -24,6 +24,7 @@ class Settings():
         self.bullet_width = 3
         self.bullet_color = 60, 60, 60
         self.bullets_allowed = 5
+        self.alien_bullets_allowed = 5
 
         # How quickly the game speeds up and how alien points increase.
         self.speedup_scale = 1.1

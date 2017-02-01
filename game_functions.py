@@ -5,6 +5,7 @@ from bullet import Bullet
 from bullet import Alien_bullet
 from alien import Alien
 from time import sleep
+from random import randint
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
@@ -77,10 +78,11 @@ def update_screen(ai_settings, screen, ship, alien, bullets, stats, sb,
     pygame.display.flip()
 
 
-def update_bullets(ai_settings, screen, ship, aliens, bullets, alien_bullets sb, stats):
+def update_bullets(ai_settings, screen, ship, play_button, aliens, bullets, alien_bullets, sb, stats):
     """Update position of bullets and get rid of old ones."""
     # Update bullet position.
     bullets.update()
+    alien_bullets.update()
 
     # Get rid of bullets that have disappeared.
     for bullet in bullets.copy():
@@ -94,7 +96,8 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets, alien_bullets sb,
     check_bullet_alien_collision(
         ai_settings, screen, ship, aliens, bullets, stats, sb)
 
-    check_ship_bullet_collision(ship, alien_bullets, sb, stats)
+    check_ship_bullet_collision(ai_settings, play_button, sb, stats, screen,
+                                ship, aliens, bullets, alien_bullets)
 
 
 def fire_bullets(ai_settings, screen, ship, bullets):
@@ -144,8 +147,24 @@ def create_fleet(ai_settings, screen, ship, aliens):
             create_alien(ai_settings, screen, aliens, alien_number, row_number)
 
 
+def aliens_fire(ai_settings, aliens, alien_bullets, ship, screen):
+    """Aliens can fire bullets now"""
+    # There's a one in 3 in 10 chance that an alien will be able to shoot.
+    # The number of aliens that will shoot is capped, to avoid unplayable
+    # situations where the ship can't escape from the bullets falling down.
+    if len(alien_bullets) <= ai_settings.alien_bullets_allowed:
+        for alien in aliens:
+            if randint(1, 10) < 4:
+                # Create a bullet object(pew?)
+                new_bullet = Alien_bullet(ai_settings, screen, ship, alien)
+                alien_bullets.add(new_bullet)
+
+
 def update_aliens(ai_settings, play_button, sb, stats, screen, ship, aliens, bullets, alien_bullets):
-    """Check if aliens are at the edges, and then update the fleet"""
+    """
+    Check if aliens erach the edges of the screen, and then update the fleet.
+    Initiate the aliens-shooting process.
+    """
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
@@ -157,6 +176,8 @@ def update_aliens(ai_settings, play_button, sb, stats, screen, ship, aliens, bul
     # Look for aliens hitting the bottom of the screen.
     check_aliens_bottom(ai_settings, play_button, sb, stats,
                         screen, ship, aliens, bullets)
+
+    aliens_fire(ai_settings, aliens, alien_bullets, ship, screen)
 
 
 def check_fleet_edges(ai_settings, aliens):
@@ -205,9 +226,9 @@ def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets,
         create_fleet(ai_settings, screen, ship, aliens)
 
 
-def check_ship_bullet_collision(ai_settings, ship, alien_bullets, stats):
+def check_ship_bullet_collision(ai_settings, play_button, sb, stats, screen, ship, aliens, bullets, alien_bullets):
     """Respond to ship-alien_bullets collisions"""
-    if pygame.sprite.collideany(alien_bullets, ship):
+    if pygame.sprite.spritecollideany(ship, alien_bullets):
         ship_hit(ai_settings, play_button, sb, stats, screen, ship,
                  aliens, bullets, alien_bullets)
 
