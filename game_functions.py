@@ -93,7 +93,7 @@ def update_bullets(ai_settings, screen, ship, play_button, aliens, bullets, alie
 
     for bullet in alien_bullets.copy():
         if bullet.rect.top >= ai_settings.screen_height:
-            bullets.remove(bullet)
+            alien_bullets.remove(bullet)
 
     check_bullet_alien_collision(
         ai_settings, screen, ship, aliens, bullets, stats, sb)

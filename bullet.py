@@ -44,6 +44,7 @@ class Alien_bullet(Bullet):
 
         # Store the bullet's position as a decimal value
         self.y = float(self.rect.y)
+        self.speed_factor = ai_settings.alien_bullet_speed_factor
 
     def update(self):
         """Draw this bullet onto the screen"""

@@ -33,8 +33,14 @@ def run_game():
     # Make the play button.
     play_button = Button(screen)
 
+    # Initialize pygame clock to control the FPS of the game
+    clock = pygame.time.Clock()
+    fps = 200
+
     # Start the main loop for the game.
     while True:
+        clock.tick(fps)
+
         gf.check_event(ai_settings, aliens, sb, screen, stats, play_button,
                        ship, bullets)
 
