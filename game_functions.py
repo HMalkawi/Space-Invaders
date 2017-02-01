@@ -57,13 +57,15 @@ def check_event(ai_settings, aliens, sb, screen, stats,
                               bullets, play_button, mouse_x, mouse_y)
 
 
-def update_screen(ai_settings, screen, ship, alien, bullets, stats, sb,
+def update_screen(ai_settings, screen, ship, alien_bullets, alien, bullets, stats, sb,
                   play_button):
     """Redraw the screen durin each pass through the loop"""
     screen.fill(ai_settings.bg_color)
     ship.blitme()
     # Redraw all bullets behind ship and aliens.
     for bullet in bullets.sprites():
+        bullet.draw_bullet()
+    for bullet in alien_bullets.sprites():
         bullet.draw_bullet()
     alien.draw(screen)
 
@@ -152,12 +154,14 @@ def aliens_fire(ai_settings, aliens, alien_bullets, ship, screen):
     # There's a one in 3 in 10 chance that an alien will be able to shoot.
     # The number of aliens that will shoot is capped, to avoid unplayable
     # situations where the ship can't escape from the bullets falling down.
-    if len(alien_bullets) <= ai_settings.alien_bullets_allowed:
-        for alien in aliens:
+    for alien in aliens:
+        if len(alien_bullets) <= ai_settings.alien_bullets_allowed:
             if randint(1, 10) < 4:
                 # Create a bullet object(pew?)
                 new_bullet = Alien_bullet(ai_settings, screen, ship, alien)
                 alien_bullets.add(new_bullet)
+        else:
+            break
 
 
 def update_aliens(ai_settings, play_button, sb, stats, screen, ship, aliens, bullets, alien_bullets):

@@ -39,7 +39,11 @@ class Alien_bullet(Bullet):
 
     def __init__(self, ai_settings, screen, ship, alien):
         super().__init__(ai_settings, screen, ship)
+        self.rect.centerx = alien.rect.centerx
         self.rect.top = alien.rect.bottom
+
+        # Store the bullet's position as a decimal value
+        self.y = float(self.rect.y)
 
     def update(self):
         """Draw this bullet onto the screen"""
